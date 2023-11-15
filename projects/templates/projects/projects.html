@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+
+{% if number > 10 %}
+    <p>djsajdjasidjasdjas</p>
+{%  endif %}
+
+<h1>Projects Template</h1>
+
+<hr>
+
+<h1>Projects</h1>
+
+<ul>
+    {% for project in projects %}
+    <li>Title: <a href="{% url 'project' project.id %}">{{ project.title }}</a></li>
+    {% endfor %}
+</ul>
+
+
+
+
+{% endblock %}
+
