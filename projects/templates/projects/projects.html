@@ -1,5 +1,4 @@
 {% extends 'main.html' %}
-
 {% block content %}
 
 
@@ -41,18 +40,14 @@
                                 </p>
                                 <p class="project--rating">
                                     <span style="font-weight: bold;">{{project.vote_ratio}}%</span> Positive
-                                    Feedback ({{project.vote_total}} Votes)
+                                    Feedback ({{project.vote_total}} Vote{{project.vote_total|pluralize:"s"}})
                                 </p>
                                 <div class="project__tags">
+                                    {% for tag in project.tags.all %}
                                     <span class="tag tag--pill tag--main">
-                                        <small>NextJS</small>
+                                        <small>{{ tag }}</small>
                                     </span>
-                                    <span class="tag tag--pill tag--main">
-                                        <small>GraphQL</small>
-                                    </span>
-                                    <span class="tag tag--pill tag--main">
-                                        <small>TypeScript</small>
-                                    </span>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </a>
