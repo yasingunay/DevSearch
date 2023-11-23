@@ -2,10 +2,10 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from django.contrib.auth.models import User
-from.models import Profile
+from .models import Profile
 
 
-@receiver(post_save, sender = User)
+@receiver(post_save, sender=User)
 def createProfile(sender, instance, created, **kwargs):
     """
     This function will be called after a YourModel instance is saved.
@@ -19,10 +19,10 @@ def createProfile(sender, instance, created, **kwargs):
         user = instance
         print("Signal: User created. Creating profile...")
         profile = Profile.objects.create(
-            user= user,
-            username = user.username,
-            email = user.email,
-            name = user.first_name,
+            user=user,
+            username=user.username,
+            email=user.email,
+            name=user.first_name,
         )
 
 
@@ -30,7 +30,6 @@ def createProfile(sender, instance, created, **kwargs):
 
 
 def updateUser(sender, instance, created, **kwargs):
-
     profile = instance
     user = profile.user
 
@@ -41,15 +40,12 @@ def updateUser(sender, instance, created, **kwargs):
             user.email = profile.email
         user.save()
 
-    
-
-
 
 def deleteUser(sender, instance, **kwargs):
     user = instance.user
-    user.delete()
+    if user is not None:
+        user.delete()
 
 
 post_delete.connect(deleteUser, sender=Profile)
 post_save.connect(updateUser, sender=Profile)
-
