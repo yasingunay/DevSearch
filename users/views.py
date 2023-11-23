@@ -6,7 +6,8 @@ from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 from django.contrib.auth.models import User
 from .models import Profile
 from projects.models import Project
-from django.db.models import Q 
+from .utils import searchProfiles
+
 
 
 def loginUser(request):
@@ -66,14 +67,7 @@ def registerUser(request):
     return render(request, 'users/login_register.html', context)
 
 def profiles(request):
-    search_query = ''
-
-    if request.GET.get('search_query'):
-        search_query = request.GET.get('search_query')
-
-    print('SEARCH:', search_query)
-
-    profiles = Profile.objects.filter( Q(name__icontains=search_query) | Q(short_intro__icontains=search_query) )# filters the results to include only those that contain the specified value in a case-insensitive manner.
+    profiles, search_query = searchProfiles(request)
     context = {'profiles': profiles, 'search_query': search_query}
     return render(request,'users/profiles.html', context)
 
