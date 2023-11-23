@@ -26,6 +26,18 @@ class Project(models.Model):
     class Meta:
         ordering = ["created"]
 
+    @property
+    def getVoteCount(self):
+        print("sddhasjhdjkasd")
+        reviews = self.review_set.all()
+        upVotes = reviews.filter(value="up").count()
+        totalVotes = reviews.count()
+
+        ratio = (upVotes / totalVotes) * 100
+        self.vote_total = totalVotes
+        self.vote_ratio = ratio
+
+        self.save()
 
 class Review(models.Model):
     VOTE_TYPE = (
