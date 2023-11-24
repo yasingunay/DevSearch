@@ -9,6 +9,7 @@ from projects.models import Project
 from .utils import searchProfiles, paginateProfiles
 
 
+
 def loginUser(request):
     page = "login"
 
@@ -212,3 +213,5 @@ def createMessage(request, pk):
 
     context ={'recipient': recipient, 'form': form}
     return render(request, 'users/message_form.html', context)
+
+
