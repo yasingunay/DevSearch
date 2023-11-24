@@ -4,6 +4,9 @@
 
 
 {% if page == 'register' %}
+    {% if user.is_authenticated %}
+        <p>You are already logged in. Please log out to register a new account.</p>
+    {% else %}
 
 <div class="auth">
     <div class="card">
@@ -57,7 +60,7 @@
     </div>
   </div>
 
-
+  {% endif %}
 {% else %}
 
 
