@@ -26,6 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("projects/", include("projects.urls")),
     path("", include("users.urls")),
+    path("api/", include("api.urls")),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name="password_reset.html"), name='password_reset'), #enter email to reset password
     path('password_reset_sent/', auth_views.PasswordResetDoneView.as_view(template_name="password_reset_sent.html"), name='password_reset_done'), # Password reset sent info abour We’ve emailed you instructions for setting your password,
