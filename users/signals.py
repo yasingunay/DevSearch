@@ -20,7 +20,6 @@ def createProfile(sender, instance, created, **kwargs):
     """
     if created:
         user = instance
-        print("Signal: User created. Creating profile...")
         profile = Profile.objects.create(
             user=user,
             username=user.username,
