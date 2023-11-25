@@ -9,7 +9,6 @@ from projects.models import Project
 from .utils import searchProfiles, paginateProfiles
 
 
-
 def loginUser(request):
     page = "login"
 
@@ -29,7 +28,7 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
-            return redirect(request.GET['next'] if 'next' in request.GET else 'account' ) 
+            return redirect(request.GET["next"] if "next" in request.GET else "account")
         else:
             messages.error(request, "Username OR password is incorrect")
 
@@ -72,13 +71,16 @@ def profiles(request):
 
     custom_range, profiles = paginateProfiles(request, profiles, 5)
 
-    context = {"profiles": profiles, "search_query": search_query, 'custom_range' : custom_range}
+    context = {
+        "profiles": profiles,
+        "search_query": search_query,
+        "custom_range": custom_range,
+    }
     return render(request, "users/profiles.html", context)
 
 
 def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
-
 
     topSkills = profile.skill_set.exclude(description__exact="")
     otherSkills = profile.skill_set.filter(description="")
@@ -167,27 +169,23 @@ def inbox(request):
     profile = request.user.profile
     messageList = profile.received_messages.all()
     unreadCount = messageList.filter(is_read=False).count()
-    context = {'messageList' : messageList, 'unreadCount': unreadCount}
-    return render(request, 'users/inbox.html', context)
-
-
-
+    context = {"messageList": messageList, "unreadCount": unreadCount}
+    return render(request, "users/inbox.html", context)
 
 
 @login_required(login_url="login")
 def viewMessage(request, pk):
     profile = request.user.profile
-    message = profile.received_messages.get(id = pk)
+    message = profile.received_messages.get(id=pk)
     if message.is_read == False:
         message.is_read = True
         message.save()
-    context ={'message': message}
-    return render(request, 'users/message.html', context)
-
+    context = {"message": message}
+    return render(request, "users/message.html", context)
 
 
 def createMessage(request, pk):
-    recipient = Profile.objects.get(id = pk)
+    recipient = Profile.objects.get(id=pk)
     form = MessageForm()
 
     try:
@@ -207,11 +205,8 @@ def createMessage(request, pk):
                 message.email = sender.email
             message.save()
 
-            messages.success(request, 'Your message was successfully sent!')
-            return redirect('user-profile', pk=recipient.id)
+            messages.success(request, "Your message was successfully sent!")
+            return redirect("user-profile", pk=recipient.id)
 
-
-    context ={'recipient': recipient, 'form': form}
-    return render(request, 'users/message_form.html', context)
-
-
+    context = {"recipient": recipient, "form": form}
+    return render(request, "users/message_form.html", context)

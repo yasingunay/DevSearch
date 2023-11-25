@@ -57,7 +57,6 @@ class SkillForm(ModelForm):
             field.widget.attrs.update({"class": "input"})
 
 
-
 class MessageForm(ModelForm):
     class Meta:
         model = Message

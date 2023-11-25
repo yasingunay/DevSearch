@@ -7,7 +7,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 
-
 @receiver(post_save, sender=User)
 def createProfile(sender, instance, created, **kwargs):
     """
@@ -36,7 +35,7 @@ def createProfile(sender, instance, created, **kwargs):
             settings.EMAIL_HOST_USER,
             [profile.email],
             fail_silently=False,
-            # fail_silently: If set to True, errors during the email-sending process will be logged but not raised as exceptions. 
+            # fail_silently: If set to True, errors during the email-sending process will be logged but not raised as exceptions.
             # If set to False (the default), exceptions will be raised if there are errors.
         )
 
@@ -57,9 +56,12 @@ def updateUser(sender, instance, created, **kwargs):
 
 
 def deleteUser(sender, instance, **kwargs):
-    user = instance.user
-    if user is not None:
-        user.delete()
+    try:
+        user = instance.user
+        if user is not None:
+            user.delete()
+    except:
+        pass
 
 
 post_delete.connect(deleteUser, sender=Profile)

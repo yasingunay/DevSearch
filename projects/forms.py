@@ -12,7 +12,6 @@ class ProjectForm(ModelForm):
             "description",
             "demo_link",
             "source_link",
-            "tags",
         ]
         widgets = {
             "tags": forms.CheckboxSelectMultiple(),
@@ -29,16 +28,12 @@ class ProjectForm(ModelForm):
         # self.fields['description'].widget.attrs.update({'class': 'input'})
 
 
-
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields =["value", "body"]
+        fields = ["value", "body"]
 
-        labels = {
-            'value': 'Place your vote',
-            'body': 'Add a comment with your vote'
-        }
+        labels = {"value": "Place your vote", "body": "Add a comment with your vote"}
 
     def __init__(self, *args, **kwargs):
         super(ReviewForm, self).__init__(*args, **kwargs)

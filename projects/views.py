@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import Project, Tag
@@ -19,6 +19,7 @@ def projects(request):
     }
     return render(request, "projects/projects.html", context)
 
+
 def project(request, pk):
     projectObj = Project.objects.get(id=pk)
     form = ReviewForm()
@@ -33,11 +34,11 @@ def project(request, pk):
 
             projectObj.getVoteCount
             messages.success(request, "Your review was successfully submitted!")
-            return redirect('project', pk=projectObj.id)
+            return redirect("project", pk=projectObj.id)
 
             # update project vote count
 
-    context ={'project': projectObj, 'form': form}
+    context = {"project": projectObj, "form": form}
     return render(request, "projects/single-project.html", context)
 
 
@@ -47,6 +48,9 @@ def createProject(request):
     form = ProjectForm()
 
     if request.method == "POST":
+        newtags = request.POST.get("newtags")
+        newtags_list = newtags.replace(",", " ").split()
+
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save(
@@ -54,6 +58,10 @@ def createProject(request):
             )  # does not save it to the database immediately
             project.owner = profile
             project.save()
+
+            for tag in newtags_list:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
             return redirect("account")
 
     context = {"form": form}
@@ -67,12 +75,18 @@ def updateProject(request, pk):
     form = ProjectForm(instance=project)
 
     if request.method == "POST":
+        newtags = request.POST.get("newtags")
+        newtags_list = newtags.replace(",", " ").split()
+
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
-            form.save()
+            project = form.save()
+            for tag in newtags_list:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
             return redirect("account")
 
-    context = {"form": form}
+    context = {"form": form, "project": project}
     return render(request, "projects/project_form.html", context)
 
 
@@ -86,6 +100,3 @@ def deleteProject(request, pk):
 
     context = {"object": project}
     return render(request, "delete_template.html", context)
-
-
-

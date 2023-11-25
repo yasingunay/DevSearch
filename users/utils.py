@@ -29,7 +29,6 @@ def paginateProfiles(request, profiles, results):
     return custom_range, profiles
 
 
-
 def searchProfiles(request):
     search_query = ""
 

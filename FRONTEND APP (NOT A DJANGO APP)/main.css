@@ -1,0 +1,68 @@
+body {
+    background-color: #f4f4f8; /* Light grayish-blue background */
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+img {
+    width: 100%;
+}
+
+#project--wrapper {
+    max-width: 800px;
+    margin: 2em auto;
+    border: 1px solid #dcdde1; /* Light gray border */
+    background-color: #ffffff; /* White background */
+    border-radius: 12px; /* Slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.project--card {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 2em;
+    margin: 2em;
+    padding: 1.5em;
+    align-items: center;
+    border: 1px solid #dcdde1;
+    background-color: #ecf0f1; /* Light grayish-blue card background */
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.project--card:hover {
+    transform: scale(1.02);
+}
+
+.card--header {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+.project--card p {
+    color: #707b7c; /* Dark gray text */
+    font-size: 14px;
+}
+
+.vote--option {
+    font-size: 24px;
+    color: #3498db; /* Modern blue color */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.vote--option:hover {
+    color: #154360; /* Darker blue on hover for better readability */
+}
+
+#form-wrapper{
+    max-width: 800px;
+    margin: 2em auto;
+    border: 1px solid #dcdde1; /* Light gray border */
+    background-color: #ffffff; /* White background */
+    border-radius: 12px; /* Slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2em;
+}

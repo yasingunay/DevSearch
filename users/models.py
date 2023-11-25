@@ -33,6 +33,22 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.username)
 
+    class Meta:
+        ordering = [
+            "created",
+        ]  # in ascending order
+
+    #  "created" sorts in ascending order (oldest to newest).
+    #  "-created" sorts in descending order (newest to oldest).
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.profile_image.url
+        except:
+            url = ""
+        return url
+
 
 class Skill(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
@@ -46,9 +62,22 @@ class Skill(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class Message(models.Model):
-    sender = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name="sent_messages") # related name means from the Profile model back to the Message model.
-    recipient = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name="received_messages")
+    sender = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="sent_messages",
+    )  # related name means from the Profile model back to the Message model.
+    recipient = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="received_messages",
+    )
     name = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField(max_length=200, null=True, blank=True)
     subject = models.CharField(max_length=200, null=True, blank=True)
@@ -60,7 +89,7 @@ class Message(models.Model):
     )
 
     def __str__(self):
-        return self.subject or 'No Subject'
-    
+        return self.subject or "No Subject"
+
     class Meta:
-        ordering = ['is_read', '-created']
+        ordering = ["is_read", "-created"]
